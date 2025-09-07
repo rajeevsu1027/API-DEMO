@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_DEMO.Controllers
@@ -18,7 +19,9 @@ namespace API_DEMO.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

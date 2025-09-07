@@ -1,0 +1,83 @@
+{
+  "info": {
+    "name": "API_DEMO Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "api-demo-collection"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"Username\": \"admin\",\n  \"Password\": \"password\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get WeatherForecast (Authorized)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{jwt_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/weatherforecast",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "weatherforecast"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "exec": [
+          "// Save JWT token from login response",
+          "if (pm.request.url.path[1] === 'login') {",
+          "  var jsonData = pm.response.json();",
+          "  pm.collectionVariables.set('jwt_token', jsonData.token);",
+          "}"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "jwt_token",
+      "value": ""
+    }
+  ]
+}
