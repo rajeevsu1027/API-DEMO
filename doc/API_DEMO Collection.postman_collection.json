@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "0aee2650-558a-4b69-82f0-b8fe7d5502e4",
+		"name": "API_DEMO Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "36351155"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"Username\": \"admin\",\n  \"Password\": \"password\"\n}"
+				},
+				"url": "https://localhost:7277/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Get WeatherForecast (Authorized)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{jwt_token}}"
+					}
+				],
+				"url": "https://localhost:7277/weatherforecast"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Save JWT token from login response",
+					"if (pm.request.url.path[1] === 'login') {",
+					"  var jsonData = pm.response.json();",
+					"  pm.collectionVariables.set('jwt_token', jsonData.token);",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt_token",
+			"value": ""
+		}
+	]
+}
